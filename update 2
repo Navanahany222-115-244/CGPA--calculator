@@ -1,0 +1,75 @@
+import javax.swing.*;
+import java.awt.event.*;
+
+public class Cgpa {
+    public static void main(String[] args) {
+
+        JFrame frame = new JFrame("CGPA Calculator");
+        frame.setSize(400, 550);
+        frame.setLayout(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel heading = new JLabel("Enter Subject Names and CGPAs");
+        heading.setBounds(80, 10, 250, 25);
+        frame.add(heading);
+
+        JTextField subject1 = new JTextField();
+        subject1.setBounds(30, 50, 150, 30);
+        frame.add(subject1);
+
+        JTextField mark1 = new JTextField();
+        mark1.setBounds(200, 50, 50, 30);
+        frame.add(mark1);
+
+        JTextField subject2 = new JTextField();
+        subject2.setBounds(30, 90, 150, 30);
+        frame.add(subject2);
+
+        JTextField mark2 = new JTextField();
+        mark2.setBounds(200, 90, 50, 30);
+        frame.add(mark2);
+
+        JTextField subject3 = new JTextField();
+        subject3.setBounds(30, 130, 150, 30);
+        frame.add(subject3);
+
+        JTextField mark3 = new JTextField();
+        mark3.setBounds(200, 130, 50, 30);
+        frame.add(mark3);
+
+        JTextField subject4 = new JTextField();
+        subject4.setBounds(30, 170, 150, 30);
+        frame.add(subject4);
+
+        JTextField mark4 = new JTextField();
+        mark4.setBounds(200, 170, 50, 30);
+        frame.add(mark4);
+
+        JTextField subject5 = new JTextField();
+        subject5.setBounds(30, 210, 150, 30);
+        frame.add(subject5);
+
+        JTextField mark5 = new JTextField();
+        mark5.setBounds(200, 210, 50, 30);
+        frame.add(mark5);
+
+        JTextField subject6 = new JTextField();
+        subject6.setBounds(30, 250, 150, 30);
+        frame.add(subject6);
+
+        JTextField mark6 = new JTextField();
+        mark6.setBounds(200, 250, 50, 30);
+        frame.add(mark6);
+
+        JButton calculateBtn = new JButton("Calculate CGPA");
+        calculateBtn.setBounds(100, 300, 180, 30);
+        frame.add(calculateBtn);
+
+        calculateBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+
+        frame.setVisible(true);
+    }
+}
