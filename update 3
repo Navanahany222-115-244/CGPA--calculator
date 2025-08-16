@@ -1,0 +1,141 @@
+import javax.swing.*;
+import java.awt.event.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        JFrame frame = new JFrame("CGPA Calculator");
+        frame.setSize(500, 600);
+        frame.setLayout(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel heading = new JLabel("Enter Subject, CGPA and Credit");
+        heading.setBounds(100, 10, 300, 25);
+        frame.add(heading);
+
+
+        JTextField subject1 = new JTextField();
+        subject1.setBounds(30, 50, 150, 30);
+        frame.add(subject1);
+
+        JTextField grade1 = new JTextField();
+        grade1.setBounds(200, 50, 50, 30);
+        frame.add(grade1);
+
+        JTextField credit1 = new JTextField();
+        credit1.setBounds(270, 50, 50, 30);
+        frame.add(credit1);
+
+
+        JTextField subject2 = new JTextField();
+        subject2.setBounds(30, 90, 150, 30);
+        frame.add(subject2);
+
+        JTextField grade2 = new JTextField();
+        grade2.setBounds(200, 90, 50, 30);
+        frame.add(grade2);
+
+        JTextField credit2 = new JTextField();
+        credit2.setBounds(270, 90, 50, 30);
+        frame.add(credit2);
+
+        JTextField subject3 = new JTextField();
+        subject3.setBounds(30, 130, 150, 30);
+        frame.add(subject3);
+
+        JTextField grade3 = new JTextField();
+        grade3.setBounds(200, 130, 50, 30);
+        frame.add(grade3);
+
+        JTextField credit3 = new JTextField();
+        credit3.setBounds(270, 130, 50, 30);
+        frame.add(credit3);
+
+
+        JTextField subject4 = new JTextField();
+        subject4.setBounds(30, 170, 150, 30);
+        frame.add(subject4);
+
+        JTextField grade4 = new JTextField();
+        grade4.setBounds(200, 170, 50, 30);
+        frame.add(grade4);
+
+        JTextField credit4 = new JTextField();
+        credit4.setBounds(270, 170, 50, 30);
+        frame.add(credit4);
+
+
+        JTextField subject5 = new JTextField();
+        subject5.setBounds(30, 210, 150, 30);
+        frame.add(subject5);
+
+        JTextField grade5 = new JTextField();
+        grade5.setBounds(200, 210, 50, 30);
+        frame.add(grade5);
+
+        JTextField credit5 = new JTextField();
+        credit5.setBounds(270, 210, 50, 30);
+        frame.add(credit5);
+
+
+        JTextField subject6 = new JTextField();
+        subject6.setBounds(30, 250, 150, 30);
+        frame.add(subject6);
+
+        JTextField grade6 = new JTextField();
+        grade6.setBounds(200, 250, 50, 30);
+        frame.add(grade6);
+
+        JTextField credit6 = new JTextField();
+        credit6.setBounds(270, 250, 50, 30);
+        frame.add(credit6);
+
+        JButton calculateBtn = new JButton("Calculate Weighted CGPA");
+        calculateBtn.setBounds(120, 320, 220, 30);
+        frame.add(calculateBtn);
+
+        JLabel resultLabel = new JLabel("Your Weighted CGPA: ");
+        resultLabel.setBounds(120, 370, 300, 30);
+        frame.add(resultLabel);
+
+        calculateBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double g1 = Double.parseDouble(grade1.getText());
+                    double c1 = Double.parseDouble(credit1.getText());
+
+                    double g2 = Double.parseDouble(grade2.getText());
+                    double c2 = Double.parseDouble(credit2.getText());
+
+                    double g3 = Double.parseDouble(grade3.getText());
+                    double c3 = Double.parseDouble(credit3.getText());
+
+                    double g4 = Double.parseDouble(grade4.getText());
+                    double c4 = Double.parseDouble(credit4.getText());
+
+                    double g5 = Double.parseDouble(grade5.getText());
+                    double c5 = Double.parseDouble(credit5.getText());
+
+                    double g6 = Double.parseDouble(grade6.getText());
+                    double c6 = Double.parseDouble(credit6.getText());
+
+                    double totalWeighted = (g1 * c1) + (g2 * c2) + (g3 * c3) + (g4 * c4) + (g5 * c5) + (g6 * c6);
+                    double totalCredits = c1 + c2 + c3 + c4 + c5 + c6;
+
+
+                    double weightedCGPA = totalWeighted / totalCredits;
+                    resultLabel.setText(String.format("Your Weighted CGPA: %.2f", weightedCGPA));
+
+                }
+                catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Please enter valid numbers for grades and credits.");
+                }
+                catch (ArithmeticException ex) {
+                    JOptionPane.showMessageDialog(frame, "Total credits cannot be zero.");
+                }
+            }
+        });
+
+        frame.setVisible(true);
+    }
+}
