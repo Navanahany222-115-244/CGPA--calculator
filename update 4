@@ -1,0 +1,183 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+
+        JFrame frame = new JFrame("Dynamic CGPA Calculator");
+        frame.setSize(500, 650);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(null);
+
+        // Background color
+        frame.getContentPane().setBackground(new Color(255, 230, 230)); // soft pink
+
+        JLabel heading = new JLabel("Select CGPA and Credit for Each Course");
+        heading.setBounds(120, 10, 350, 25);
+        heading.setFont(new Font("Arial", Font.BOLD, 14));
+        frame.add(heading);
+
+        String[] cgpaOptions = {
+                "0.00","1.00","1.25","1.50","1.75",
+                "2.00","2.25","2.50","2.75",
+                "3.00","3.25","3.50","3.75","4.00"
+        };
+        String[] creditOptions = {"0","1","1.5","2","3","4","5"};
+
+        JPanel coursePanel = new JPanel();
+        coursePanel.setLayout(null);
+        coursePanel.setPreferredSize(new Dimension(450, 50));
+        coursePanel.setBackground(new Color(243, 232, 255)); // very light lavender
+
+        JScrollPane scrollPane = new JScrollPane(coursePanel);
+        scrollPane.setBounds(20, 50, 450, 400);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        frame.add(scrollPane);
+
+        ArrayList<JComboBox<String>> gradeList = new ArrayList<>();
+        ArrayList<JComboBox<String>> creditList = new ArrayList<>();
+        ArrayList<JLabel> courseLabels = new ArrayList<>();
+
+        int yStart = 10;
+        JLabel courseLabel = new JLabel("Course 1:");
+        courseLabel.setBounds(10, yStart, 100, 30);
+        coursePanel.add(courseLabel);
+        courseLabels.add(courseLabel);
+
+        JComboBox<String> gradeBox = new JComboBox<>(cgpaOptions);
+        gradeBox.setBounds(120, yStart, 80, 30);
+        coursePanel.add(gradeBox);
+        gradeList.add(gradeBox);
+
+        JComboBox<String> creditBox = new JComboBox<>(creditOptions);
+        creditBox.setBounds(220, yStart, 60, 30);
+        coursePanel.add(creditBox);
+        creditList.add(creditBox);
+
+        final int[] courseCount = {1};
+
+        // Button colors
+        Color btnColor = new Color(128, 203, 196); // pastel teal
+        Color hoverColor = new Color(77, 182, 172); // darker teal
+
+        // Add Course Button
+        JButton addCourseBtn = new JButton("Add Course");
+        addCourseBtn.setBounds(40, 460, 120, 30);
+        addCourseBtn.setBackground(btnColor);
+        addCourseBtn.setFocusPainted(false);
+        addHoverEffect(addCourseBtn, btnColor, hoverColor);
+        frame.add(addCourseBtn);
+
+        // Calculate Button
+        JButton calculateBtn = new JButton("Calculate CGPA");
+        calculateBtn.setBounds(180, 460, 150, 30);
+        calculateBtn.setBackground(btnColor);
+        calculateBtn.setFocusPainted(false);
+        addHoverEffect(calculateBtn, btnColor, hoverColor);
+        frame.add(calculateBtn);
+
+        // Clear Button
+        JButton clearBtn = new JButton("Clear All");
+        clearBtn.setBounds(350, 460, 100, 30);
+        clearBtn.setBackground(btnColor);
+        clearBtn.setFocusPainted(false);
+        addHoverEffect(clearBtn, btnColor, hoverColor);
+        frame.add(clearBtn);
+
+        JLabel resultLabel = new JLabel("Your Weighted CGPA: ");
+        resultLabel.setBounds(180, 500, 250, 30);
+        resultLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        frame.add(resultLabel);
+
+        addCourseBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(courseCount[0] >= 20) return;
+
+                int yPos = courseCount[0] * 50 + 10;
+                courseCount[0]++;
+
+                JLabel newCourseLabel = new JLabel("Course " + courseCount[0] + ":");
+                newCourseLabel.setBounds(10, yPos, 100, 30);
+                coursePanel.add(newCourseLabel);
+                courseLabels.add(newCourseLabel);
+
+                JComboBox<String> newGrade = new JComboBox<>(cgpaOptions);
+                newGrade.setBounds(120, yPos, 80, 30);
+                coursePanel.add(newGrade);
+                gradeList.add(newGrade);
+
+                JComboBox<String> newCredit = new JComboBox<>(creditOptions);
+                newCredit.setBounds(220, yPos, 60, 30);
+                coursePanel.add(newCredit);
+                creditList.add(newCredit);
+
+                coursePanel.setPreferredSize(new Dimension(450, yPos + 50));
+                coursePanel.revalidate();
+                coursePanel.repaint();
+            }
+        });
+
+        calculateBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double totalWeighted = 0, totalCredits = 0;
+                    for(int i=0; i<gradeList.size(); i++){
+                        double c = Double.parseDouble(creditList.get(i).getSelectedItem().toString());
+                        if(c > 0){
+                            double g = Double.parseDouble(gradeList.get(i).getSelectedItem().toString());
+                            totalWeighted += g * c;
+                            totalCredits += c;
+                        }
+                    }
+                    if(totalCredits == 0) throw new ArithmeticException();
+                    double weightedCGPA = totalWeighted / totalCredits;
+                    resultLabel.setText(String.format("Your Weighted CGPA: %.2f", weightedCGPA));
+                } catch(NumberFormatException ex){
+                    JOptionPane.showMessageDialog(frame, "Invalid input.");
+                } catch(ArithmeticException ex){
+                    JOptionPane.showMessageDialog(frame, "Total credits cannot be zero.");
+                }
+            }
+        });
+
+        clearBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for(int i = gradeList.size() - 1; i > 0; i--){
+                    coursePanel.remove(gradeList.get(i));
+                    coursePanel.remove(creditList.get(i));
+                    coursePanel.remove(courseLabels.get(i));
+
+                    gradeList.remove(i);
+                    creditList.remove(i);
+                    courseLabels.remove(i);
+                }
+                courseCount[0] = 1;
+                coursePanel.setPreferredSize(new Dimension(450, 50));
+                coursePanel.revalidate();
+                coursePanel.repaint();
+
+                gradeList.get(0).setSelectedIndex(0);
+                creditList.get(0).setSelectedIndex(0);
+
+                resultLabel.setText("Your Weighted CGPA: ");
+            }
+        });
+
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    // Hover effect method
+    public static void addHoverEffect(JButton button, Color normal, Color hover){
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(hover);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(normal);
+            }
+        });
+    }
+}
